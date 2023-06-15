@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>truck model simulation</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <div class="sa">
+
+    <img src="images/sihlogo.png" class="img1">
+    <div class="sa1">
+      <h1>SMART INDIA HACKATHON 2022</h1>
+      <h2> Road Techies , B.N.M INSTITUTE OF TECHNOLOGY</h2>
+    </div>
+
+    <img src="images/bnmlogo1.png" class="img2">
+
+  </div>
+
+  <div class="box1">
+    <h3>Problem Statement -</h3>
+    <p>NC740: Moving Vehicle Registration Plate Detection </p>
+  </div>
+  <a class="record" href="file:///C:/Users/DELL/OneDrive/temp/index.html">TRUCK DETAILS</a>
+<a class="record" href="file:///C:/Users/DELL/OneDrive/temp/blah.html">GATE RECORD</a>
+<a class="record" href="file:///C:/Users/DELL/OneDrive/temp/geek.html">TRUCK RECORD</a>
+<a class="record" href="file:///C:/Users/DELL/OneDrive/temp/error.html">WARNING RECORD</a>
+  <div class="divider"></div>
+
+  <div class="output">
+
+
+    <div class="gate">
+      <div><img class="img3 Entry_Gate" src="images/t1.png"></div>
+      <center><button class="select entry" data-gate="Entry_Gate">ENTRY GATE</button></center>
+      <div class="out1">
+        <ul class="list Entry_Gate"></ul>
+        <center><a href="mailto:agarwalniru2121@gmail.com?Subject=ALERT SIGNAL&Body=Error in entry gate">Send Alert Message</a></center>
+      </div>
+    </div>
+
+
+    <div class="gate">
+      <div><img class="img3 Loading_Gate" src="images/t1.png"></div>
+      <center><button class="select Loading_Gate" data-gate="Loading_Gate">LOADING GATE</button></center>
+      <div class="out1">
+        <ul class="list Loading_Gate"></ul>
+
+        <center><a href="mailto:agarwalniru2121@gmail.com?Subject=ALERT SIGNAL&Body=Error in loading gate">Send Alert Message</a></center>
+      </div>
+    </div>
+
+
+    <div class="gate">
+      <div><img class="img3 Weighing_Gate" src="images/t1.png"></div>
+      <center><button class="select weigh" data-gate="Weighing_Gate">WEIGHING GATE</button></center>
+      <div class="out1">
+        <ul class="list Weighing_Gate"></ul>
+
+        <center><a href="mailto:agarwalniru2121@gmail.com?Subject=ALERT SIGNAL&Body=Error in weighing gate">Send Alert Message</a></center>
+      </div> 
+    </div>
+
+
+    <div class="gate">
+      <div><img class="img3 Exit_Gate" src="images/t1.png"></div>
+      <center><button class="select" data-gate="Exit_Gate">EXIT GATE</button></center>
+      <div class="out1">
+        <ul class="list Exit_Gate"></ul>
+
+        <center><a href="mailto:agarwalniru2121@gmail.com?Subject=ALERT SIGNAL&Body=Error in exit gate">Send Alert Message</a></center>
+      </div>
+    </div>
+ </div>
+
+ <div class="divider"></div>
+ <div class="face">
+  <div class="rt">
+    <h3>FACIAL RECOGNITION</h3>
+    <p>Driver's Biometric is used for facial recognition and the details are matched with the driver's record inorder to authentiacte if he is an authorized driver or not.</p>
+  
+      <h7>DRIVER REGISTRATION DETAILS -</h7>
+    <div><img class="img6" src="images/ty.jpg"></div>
+
+    <h3>STATUS -</h3>
+    <h7>FACIAL RECOGNITION UNSUCCESSFUL</h7>
+  </div>
+  
+    <img class="img7" src="images/fr.png">
+  
+  </div>
+
+  <div class="divider"></div>
+ 
+  <h3>GPS NAVIGATION SYSTEM</h3>
+  <div class="gps"></div>
+  <img class="img8" src="images/uuu.jpg">
+  <img class="img9" src="images/LL.jpg">
+ </div>
+ <div class="divider"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQ3kuHW8lgh_QsuCJZXjl4lGaPoiovZQg",
+      authDomain: "savedata-37484.firebaseapp.com",
+      databaseURL: "https://savedata-37484-default-rtdb.firebaseio.com",
+      projectId: "savedata-37484",
+      storageBucket: "savedata-37484.appspot.com",
+      messagingSenderId: "149069193396",
+      appId: "1:149069193396:web:c6e3e8dc1ef868423ff7e1",
+      measurementId: "G-FFXX508GXM"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+
+    hide();
+    function hide() {
+      document.querySelectorAll(".img3").forEach((x) => {
+        x.style.display = "none";
+      })
+    }
+    function show(gate) {
+      document.querySelector(`.img3.${gate}`).style.display = "block";
+    }
+
+    function additemstolist(obj, gate) 
+    {
+      console.log(gate)
+      var ul = document.querySelector(`.list.${gate}`);
+      var header = document.createElement('h4');
+      var intimev = document.createElement('li');
+      var platev = document.createElement('li');
+      var statv = document.createElement('li');
+      var camv=document.createElement('li');
+      header.innerHTML = 'Truck Details -';
+      intimev.innerHTML = 'Intime : ' + obj['Intime'];
+      platev.innerHTML = 'Number Plate : ' + obj['NumberPlate'];
+      statv.innerHTML = 'Status : ' + obj['Status'];
+      camv.innerHTML= 'Camera : '+obj['Camera'];
+      ul.appendChild(header);
+      ul.appendChild(platev);
+      ul.appendChild(camv);
+      ul.appendChild(intimev);
+      if(gate=="Entry_Gate")
+      {
+        var vv=document.createElement('li');
+        vv.innerHTML='OTP Verification :'+obj['Verification'];
+        ul.appendChild(vv);
+      }
+      if(gate=="Exit_Gate")
+      {
+         var ttv= document.createElement('li');
+         ttv.innerHTML='Time From Weighing to Exit :'+obj['TimeTakenFromWeighingtoExit'];
+         ul.appendChild(ttv);
+      }
+      if(gate=="Weighing_Gate")
+      {
+         var ttv= document.createElement('li');
+         ttv.innerHTML='Time From Loading to Weighing :'+obj['TimeTakenFromLoadingtoWeighing'];
+         ul.appendChild(ttv);
+      }
+      if(gate=="Loading_Gate")
+      {
+         var ttv= document.createElement('li');
+         ttv.innerHTML='Time From Entry to Loading :'+obj['TimeTakenFromEntrytoLoading'];
+         ul.appendChild(ttv);
+      }
+      ul.appendChild(statv);
+    }
+
+    function fetchalldata(e) {
+      show(e.target.dataset.gate);
+      onValue(ref(db, e.target.dataset.gate), (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+        snapshot.forEach((x) => {
+          let obj = x.val()
+          additemstolist(obj, e.target.dataset.gate);
+        })
+      }, {
+        onlyOnce: true
+      });
+    }
+
+    document.querySelectorAll(".select").forEach((x) => {
+      x.addEventListener('click', fetchalldata);
+    })
+    
+  </script>
+</body>
+
+</html>

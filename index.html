@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width = device-width, initial-scale=1.0 ">
+    <style>label{display: inline-block;width:80px}
+    select{width:120px ;}
+    body{
+      background-color: lightgray;
+    }
+    </style>
+  </head>
+
+  <body>
+    
+    <label>Number Plate</label><input id = "np" type="text"><br><br>
+    <label>Entry Intime</label><input id = "eit" type="text"><br><br>
+    <label>Entry Status</label><input id =  "es" type="text"><br><br>
+    <label>Loading Intime</label><input id =  "lit" type="text"><br><br>
+    <label>Entry-Loading Time</label><input id =  "el" type="text"><br><br>
+    <label>Loading Status</label><input id =  "ls" type="text"><br><br>
+    <label>Weighing Intime</label><input id =  "wit" type="text"><br><br>
+    <label>Loading-Weighing Time</label><input id =  "lw" type="text"><br><br>
+    <label>Weighing Status</label><input id =  "ws" type="text"><br><br>
+    <label>Exit Intime</label><input id =  "exit" type="text"><br><br>
+    <label>Weighing-Exit Time</label><input id =  "we" type="text"><br><br>
+    <label>Exit Status</label><input id =  "exs" type="text"><br><br>
+    <button id="select">SELECT</button> 
+
+    <hr>
+  
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+    import { getDatabase, ref,get,set,child } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyBQ3kuHW8lgh_QsuCJZXjl4lGaPoiovZQg",
+    authDomain: "savedata-37484.firebaseapp.com",
+    databaseURL: "https://savedata-37484-default-rtdb.firebaseio.com",
+    projectId: "savedata-37484",
+    storageBucket: "savedata-37484.appspot.com",
+    messagingSenderId: "149069193396",
+    appId: "1:149069193396:web:c6e3e8dc1ef868423ff7e1",
+    measurementId: "G-FFXX508GXM"
+  };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+      var  npv = document.getElementById("np");
+      var  eitv = document.getElementById("eit");
+      var  esv = document.getElementById("es");
+      var  litv = document.getElementById("lit");
+      var  elv = document.getElementById("el");
+      var  lsv = document.getElementById("ls");
+      var  witv = document.getElementById("wit");
+      var  lwv = document.getElementById("lw");
+      var  wsv = document.getElementById("ws");
+      var  exitv = document.getElementById("exit");
+      var  wev = document.getElementById("we");
+      var exsv = document.getElementById("exs");
+      var select = document.getElementById("select");
+      
+
+
+      function selectdata()
+      {
+        const dbref=ref(db);
+        
+        get(child(dbref,"Truck_Details/"+ npv.value)).then((snapshot)=>{
+          if(snapshot.exists())
+          {
+            npv.value = snapshot.val().NumberPlate;
+            eitv.value=snapshot.val().Entry_Intime;
+            esv.value=snapshot.val().Entry_Status;
+            litv.value=snapshot.val().Loading_Intime;
+            elv.value=snapshot.val().TimeTakenFromEntrytoLoading;
+            lsv.value=snapshot.val().Loading_Status;
+            witv.value=snapshot.val().Weighing_Intime;
+            lwv.value=snapshot.val().TimeTakenFromLoadingtoWeighing;
+            wsv.value=snapshot.val().Weighing_Status;
+            exitv.value=snapshot.val().Exit_Intime;
+            wev.value=snapshot.val().TimeTakenFromWeighingtoExit;
+            exsv.value=snapshot.val().Exit_Status;
+            
+          }
+          else
+          {
+            alert("no data found");
+          }
+        })
+        .catch((error)=>{
+          alert("unsuccessful,error"+error);
+        });
+      }
+
+      select.addEventListener('click',selectdata);
+    </script>
+    
+
+  </body>
+  
+
+</html>

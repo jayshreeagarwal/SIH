@@ -1,0 +1,38 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <label>OTP</label><input id= "otp" type="text">
+        <button id="insert">SEND</button> 
+
+       <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+  import { getDatabase,ref,set,child } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBQ3kuHW8lgh_QsuCJZXjl4lGaPoiovZQg",
+    authDomain: "savedata-37484.firebaseapp.com",
+    databaseURL: "https://savedata-37484-default-rtdb.firebaseio.com",
+    projectId: "savedata-37484",
+    storageBucket: "savedata-37484.appspot.com",
+    messagingSenderId: "149069193396",
+    appId: "1:149069193396:web:c6e3e8dc1ef868423ff7e1",
+    measurementId: "G-FFXX508GXM"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase();
+  var otpbox=document.getElementById("otp");
+  var insert = document.getElementById("insert");
+  function insertdata()
+  {
+    set(ref(db,"otpvalue/"),
+    {
+      otp:otpbox.value
+    });
+  }
+  insert.addEventListener('click',insertdata);
+</script>
+    </body>
+</html>

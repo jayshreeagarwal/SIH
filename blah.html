@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>truck model simulation</title>
+<style>
+    table,th,td,tr{
+        border: 1px solid black;
+    }
+    table{
+        margin:20px auto;
+        border-collapse: collapse;
+        display:none;
+    }
+    td,th{
+        padding: 5px 8px;
+        text-align:center;
+    }
+    body{
+        background-color: lightgray;
+    }
+</style>
+</head>
+<body>
+<div class="output">
+<div class="gate">
+<center><button class="select entry" data-gate="Entry_Gate_Total">ENTRY GATE</button></center>
+<div class="out1">
+<table class="table Entry_Gate_Total">
+<thead>
+<tr>
+<th>Truck No.</th>
+<th>Intime</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody >
+</tbody>
+</table>
+</div>
+</div>
+<div class="gate">
+<center><button class="select Loading_Gate" data-gate="Loading_Gate_Total">LOADING GATE</button></center>
+<div class="out1">
+<table class="table Loading_Gate_Total">
+<thead>
+<tr>
+<th>Truck No.</th>
+<th>Intime</th>
+<th>Time From Entry to Loading</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody >
+</tbody>
+</table>
+</div>
+</div>
+<div class="gate">
+<center><button class="select weigh" data-gate="Weighing_Gate_Total">WEIGHING GATE</button></center>
+<div class="out1">
+<table class="table Weighing_Gate_Total">
+<thead>
+<tr>
+<th>Truck No.</th>
+<th>Intime</th>
+<th>Time From Loading to Weighing</th>
+<th>Status
+</th>
+</tr>
+</thead>
+<tbody >
+</tbody>
+</table>
+</div>
+</div>
+<div class="gate">
+<center><button class="select" data-gate="Exit_Gate_Total">EXIT GATE</button></center>
+<div class="out1">
+<table class="table Exit_Gate_Total">
+<thead>
+<tr>
+<th>Truck No.</th>
+<th>Intime</th>
+<th>Time From Weighing to Exit</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody >
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyBQ3kuHW8lgh_QsuCJZXjl4lGaPoiovZQg",
+    authDomain: "savedata-37484.firebaseapp.com",
+    databaseURL: "https://savedata-37484-default-rtdb.firebaseio.com",
+    projectId: "savedata-37484",
+    storageBucket: "savedata-37484.appspot.com",
+    messagingSenderId: "149069193396",
+    appId: "1:149069193396:web:c6e3e8dc1ef868423ff7e1",
+    measurementId: "G-FFXX508GXM"
+  };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+    var tno = 0;
+    function additemstolist(obj, gate) 
+    {
+      
+      var table = document.querySelector(`.table.${gate}`);
+      table.style.display="table";
+      let tableData=[];
+      let truckNo = document.createElement("td");
+      let intime = document.createElement('td');
+      let status = document.createElement('td');
+      truckNo.innerHTML=obj['NumberPlate'];
+      intime.innerHTML=obj['Intime'];
+      status.innerHTML=obj['Status'];
+      tableData.push(truckNo)
+      tableData.push(intime)
+      if(gate=="Exit_Gate_Total")
+      {
+         var ttv= document.createElement('td');
+         ttv.innerHTML=obj['TimeTakenFromWeighingtoExit'];
+        tableData.push(ttv)
+
+      }
+      if(gate=="Weighing_Gate_Total")
+      {
+         var ttv= document.createElement('td');
+         ttv.innerHTML=obj['TimeTakenFromLoadingtoWeighing'];
+         tableData.push(ttv)
+      }
+      if(gate=="Loading_Gate_Total")
+      {
+         var ttv= document.createElement('td');
+         ttv.innerHTML=obj['TimeTakenFromEntrytoLoading'];
+         tableData.push(ttv)
+
+      }
+      tableData.push(status)
+      let row = document.createElement("tr");
+      tableData.forEach((data)=>{
+          row.appendChild(data)
+      })
+      table.appendChild(row)
+    }
+
+    function fetchalldata(e) {
+      onValue(ref(db, e.target.dataset.gate), (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+        snapshot.forEach((x) => {
+          let obj = x.val()
+          additemstolist(obj, e.target.dataset.gate);
+        })
+      }, {
+        onlyOnce: true
+      });
+    }
+
+    document.querySelectorAll(".select").forEach((x) => {
+      x.addEventListener('click', fetchalldata);
+
+    })
+    
+  </script>
+</body>
+</html>
+
+
+
+
+
